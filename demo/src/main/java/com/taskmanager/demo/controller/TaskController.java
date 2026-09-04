@@ -1,10 +1,7 @@
 package com.taskmanager.demo.controller;
 
 
-import com.taskmanager.demo.dto.TaskRequest;
-import com.taskmanager.demo.dto.TaskResponse;
-import com.taskmanager.demo.dto.UpdateTaskRequest;
-import com.taskmanager.demo.dto.UserTaskResponse;
+import com.taskmanager.demo.dto.*;
 import com.taskmanager.demo.model.Task;
 import com.taskmanager.demo.model.User;
 import com.taskmanager.demo.service.TaskService;
@@ -82,6 +79,11 @@ public class TaskController {
         return taskService.getTasks();
     }
 
+    @PostMapping("/register")
+    public UserResponse register(@Valid @RequestBody UserRequest userRequest){
+        return userService.register(userRequest);
+    }
+
     @GetMapping("/{id}/tasks") //valida que deveria ser UserTaskResponse
     public User  getUserWithTasks(@PathVariable Long id) {
         return userService.getUserWithTasks(id);
@@ -99,6 +101,7 @@ public class TaskController {
     @GetMapping("/Search")
     public Page<TaskResponse> getTaskByTitle( @RequestParam String title, Pageable pageable){
         return taskService.getTaskByTitle(title,pageable);
+
     }
 
     @GetMapping

@@ -1,5 +1,6 @@
 package com.taskmanager.demo.service;
 
+import com.taskmanager.demo.auth.CurrentUserProvider;
 import com.taskmanager.demo.dto.TaskResponse;
 import com.taskmanager.demo.dto.UpdateTaskRequest;
 import com.taskmanager.demo.dto.UserTaskResponse;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 
@@ -26,13 +28,15 @@ public class TaskService {
     private final UserTaskResponse userTaskResponse;
     private  final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final CurrentUserProvider currentUserProvider;
 
-    public TaskService(TaskRepository taskRepository, TaskMapper taskMapper, UserTaskResponse userTaskResponse, UserRepository userRepository, UserMapper userMapper) {
+    public TaskService(TaskRepository taskRepository, TaskMapper taskMapper, UserTaskResponse userTaskResponse, UserRepository userRepository, UserMapper userMapper, CurrentUserProvider currentUserProvider) {
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
         this.userTaskResponse = userTaskResponse;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.currentUserProvider = currentUserProvider;
     }
 
     public Task createTask( String title, String description){
@@ -88,6 +92,11 @@ public class TaskService {
 
         taskRepository.findById(id)
                 .orElseThrow(()-> new TaskNotFoundException(id));
+
+        Long currentUserId = currentUserProvider.getCurrentUserId();
+        if (!task.getUser().getId().equals(currentUserId)){
+            throw new AccessDeniedException("you cannot delete this task");
+        }
         taskRepository.deleteById(id);
 
     }
