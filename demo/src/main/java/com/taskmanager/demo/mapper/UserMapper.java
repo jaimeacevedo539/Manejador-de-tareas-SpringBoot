@@ -18,7 +18,7 @@ public class UserMapper {
 
     public UserTaskResponse toResponse(User user){
 
-        List<TaskResponse> tasks = user.getTaks()
+        List<TaskResponse> tasks = user.getTasks()
                 .stream()
                 .map(taskMapper::toResponse)
                 .toList();

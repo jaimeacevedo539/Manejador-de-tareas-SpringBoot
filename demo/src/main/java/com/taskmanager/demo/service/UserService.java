@@ -6,14 +6,19 @@ import com.taskmanager.demo.exception.UserNotFoundException;
 import com.taskmanager.demo.model.User;
 import com.taskmanager.demo.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(PasswordEncoder passwordEncoder) {
+
+
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
 
     public User getUserWithTasks(Long id){
@@ -32,5 +37,9 @@ public class UserService {
 
         // 5. devolver Response
         return null;
+    }
+
+    public PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
     }
 }

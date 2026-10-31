@@ -1,12 +1,11 @@
 package com.taskmanager.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@Table(name = "app_users")
 public class User {
     @Id
     @GeneratedValue
@@ -14,7 +13,8 @@ public class User {
     private String name;
     private String email;
     private String password;
-    List<Task> taks;
+    @OneToMany(mappedBy ="user")
+    List<Task> tasks;
 
     public User(Long id, String name, String email, String password) {
         this.id = id;
@@ -30,8 +30,8 @@ public class User {
         return id;
     }
 
-    public List<Task> getTaks() {
-        return taks;
+    public List<Task> getTasks() {
+        return tasks;
     }
 
     public void setId(Long id) {

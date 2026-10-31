@@ -25,15 +25,14 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
-    private final UserTaskResponse userTaskResponse;
     private  final UserRepository userRepository;
     private final UserMapper userMapper;
     private final CurrentUserProvider currentUserProvider;
 
-    public TaskService(TaskRepository taskRepository, TaskMapper taskMapper, UserTaskResponse userTaskResponse, UserRepository userRepository, UserMapper userMapper, CurrentUserProvider currentUserProvider) {
+
+    public TaskService(TaskRepository taskRepository, TaskMapper taskMapper, UserRepository userRepository, UserMapper userMapper, CurrentUserProvider currentUserProvider) {
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
-        this.userTaskResponse = userTaskResponse;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.currentUserProvider = currentUserProvider;
@@ -94,9 +93,7 @@ public class TaskService {
                 .orElseThrow(()-> new TaskNotFoundException(id));
 
         Long currentUserId = currentUserProvider.getCurrentUserId();
-        if (!task.getUser().getId().equals(currentUserId)){
-            throw new AccessDeniedException("you cannot delete this task");
-        }
+
         taskRepository.deleteById(id);
 
     }

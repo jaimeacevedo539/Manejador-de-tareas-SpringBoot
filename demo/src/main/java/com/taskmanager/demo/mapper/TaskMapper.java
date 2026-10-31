@@ -11,8 +11,7 @@ public class TaskMapper {
         return new TaskResponse(
                 task.getId(),
                 task.getTitle(),
-                task.getDescription(),
-                task.getUsers()
+                task.getDescription()
         );
     }
 }

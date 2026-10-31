@@ -1,9 +1,6 @@
 package com.taskmanager.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Version;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -16,7 +13,8 @@ public class Task {
     private  String description;
     @Version
     private Long version;
-    List<User> users;
+    @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
 
     public Task() {
@@ -31,9 +29,6 @@ public class Task {
     public Task(String tilte, String description) {
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 
     public User getUser() {
         return user;
@@ -63,7 +58,4 @@ public class Task {
         this.description = description;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
 }

@@ -74,7 +74,7 @@ public class TaskController {
                 .body(response);
     }
 
-    @GetMapping
+    @GetMapping("/tasksAll")
     public List<TaskResponse> getTasks() {
         return taskService.getTasks();
     }
@@ -122,7 +122,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteTask(@PathVariable Long id){
+    public ResponseEntity  deleteTask(@PathVariable Long id){
         taskService.deleteTask(id);
         return ResponseEntity.noContent().build();
     }
